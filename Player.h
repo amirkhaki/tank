@@ -16,6 +16,17 @@ public:
 
 	qreal verticalSpeed{};
 	qreal horizontalSpeed{};
+
+	void right();
+
+	void left();
+
+	void up();
+
+	void down();
+
+
+	void shoot();
 };
 
 

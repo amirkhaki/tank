@@ -6,31 +6,41 @@
 #include "Bullet.h"
 
 #include <QKeyEvent>
-#include <QDebug>
 #include <QGraphicsScene>
-#include <iostream>
 
 void Player::keyPressEvent(QKeyEvent *event) {
 	switch (event->key()) {
 		case Qt::Key_Right:
-			setPos(x() + verticalSpeed, y());
+			right();
 			break;
 		case Qt::Key_Left:
-			setPos(x() - verticalSpeed, y());
+			left();
 			break;
 		case Qt::Key_Up:
-			setPos(x(), y() - horizontalSpeed);
+			up();
 			break;
 		case Qt::Key_Down:
-			setPos(x(), y() + horizontalSpeed);
+			down();
 			break;
 		case Qt::Key_Space:
-			auto *bullet = new Bullet();
-			bullet->setPos(x(), y());
-			scene()->addItem(bullet);
+			shoot();
 			break;
 	}
 }
+
+void Player::shoot() {
+	auto *bullet = new Bullet();
+	bullet->setPos(this->x(), this->y());
+	this->scene()->addItem(bullet);
+}
+
+void Player::down() { this->setPos(this->x(), this->y() + this->horizontalSpeed); }
+
+void Player::up() { this->setPos(this->x(), this->y() - this->horizontalSpeed); }
+
+void Player::left() { this->setPos(this->x() - this->verticalSpeed, this->y()); }
+
+void Player::right() { this->setPos(this->x() + this->verticalSpeed, this->y()); }
 
 void Player::setSpeed(qreal vSpeed, qreal hSpeed) {
 	verticalSpeed = vSpeed;
