@@ -3,14 +3,14 @@
 //
 
 #include "Player.h"
+#include "Bullet.h"
 
 #include <QKeyEvent>
 #include <QDebug>
+#include <QGraphicsScene>
 #include <iostream>
 
 void Player::keyPressEvent(QKeyEvent *event) {
-	qDebug() << "key press";
-	std::cout << "jdfjs;dfj" << std::endl;
 	switch (event->key()) {
 		case Qt::Key_Right:
 			setPos(x() + verticalSpeed, y());
@@ -23,6 +23,11 @@ void Player::keyPressEvent(QKeyEvent *event) {
 			break;
 		case Qt::Key_Down:
 			setPos(x(), y() + horizontalSpeed);
+			break;
+		case Qt::Key_Space:
+			auto *bullet = new Bullet();
+			bullet->setPos(x(), y());
+			scene()->addItem(bullet);
 			break;
 	}
 }

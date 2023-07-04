@@ -13,7 +13,7 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(game main.cpp Player.cpp Player.h)
+add_executable(game main.cpp Player.cpp Player.h Bullet.cpp Bullet.h)
 target_link_libraries(game
         Qt::Core
         Qt::Gui
