@@ -8,13 +8,41 @@
 
 #include <qgraphicsitem.h>
 #include <qobject.h>
-class Bullet : public QObject, public QGraphicsRectItem {
-	Q_OBJECT
-public:
-	Bullet();
-public slots:
-	void move();
+#include <qtypes.h>
 
+static const int msec = 50;
+
+class Bullet : public QObject, public QGraphicsRectItem {
+Q_OBJECT
+
+	int xSpeed;
+	int ySpeed;
+
+	auto startTimer() -> void;
+
+public:
+	class Builder {
+		Bullet *bullet;
+	public:
+		Builder();
+
+		auto setXSpeed(qreal x) -> Builder &;
+
+		auto setYSpeed(qreal y) -> Builder &;
+
+		auto setWidth(qreal w) -> Builder &;
+
+		auto setHeight(qreal h) -> Builder &;
+
+		auto setPos(qreal x, qreal y) -> Builder &;
+
+		auto build() -> Bullet *;
+
+	};
+
+public slots:
+
+	void move();
 };
 
 

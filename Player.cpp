@@ -29,8 +29,7 @@ void Player::keyPressEvent(QKeyEvent *event) {
 }
 
 void Player::shoot() {
-	auto *bullet = new Bullet();
-	bullet->setPos(this->x(), this->y());
+	auto *bullet = Bullet::Builder().setWidth(12).setHeight(10).setXSpeed(0).setYSpeed(-2).setPos(x(), y()).build();
 	this->scene()->addItem(bullet);
 }
 
