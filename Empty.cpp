@@ -6,7 +6,5 @@
 #include <exception>
 
 QString Empty::getImage() {
-	// as it is not implemented
-	qDebug() << "not implemented";
-	throw std::exception();
+	return ":/images/empty.png";
 }

@@ -1,5 +1,4 @@
 #include "MapCreator.h"
-#include "Object.h"
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
