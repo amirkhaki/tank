@@ -50,9 +50,9 @@ void Player::setSpeed(qreal rSpeed, qreal mSpeed) {
 }
 
 Player::Player(Player::Controls controls) {
-	setRect(0, 0, 50, 50);
-	setTransformOriginPoint(rect().width() / 2, rect().height() / 2);
-	setBrush(QBrush(Qt::red));
+	setPixmap(QPixmap(":/images/tank.png"));
+	auto rect = pixmap().rect();
+	setTransformOriginPoint(rect.width() / 2.0, rect.height() / 2.0);
 	setZValue(1);
 	keyMap[controls.right] = [this](Player *player) { player->right(); };
 	keyMap[controls.left] = [this](Player *player) { player->left(); };
@@ -60,3 +60,4 @@ Player::Player(Player::Controls controls) {
 	keyMap[controls.down] = [this](Player *player) { player->down(); };
 	keyMap[controls.shoot] = [this](Player *player) { player->shoot(); };
 }
+

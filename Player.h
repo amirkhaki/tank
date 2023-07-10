@@ -5,10 +5,9 @@
 #ifndef GAME_PLAYER_H
 #define GAME_PLAYER_H
 
-#include <QGraphicsRectItem>
-#include <qgraphicsitem.h>
+#include <QGraphicsPixmapItem>
 
-class Player : public QGraphicsRectItem {
+class Player : public QGraphicsPixmapItem {
 	typedef std::function<void(Player *)> MethodType;
 	std::map<int, MethodType> keyMap;
 	qreal rotationSpeed{};
@@ -39,6 +38,7 @@ public:
 
 
 	void shoot();
+
 };
 
 
