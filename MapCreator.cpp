@@ -39,6 +39,7 @@ void MapCreator::create() {
 			}
 			item->init();
 			item->setPos(j * OBJECT_PIXEL_WIDTH, i * OBJECT_PIXEL_HEIGHT);
+			item->setZValue(0);
 			scene->addItem(item);
 		}
 	}
