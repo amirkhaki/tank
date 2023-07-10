@@ -4,5 +4,6 @@
         <file>images/bricks.png</file>
         <file>images/forest.png</file>
         <file>images/tank.png</file>
+        <file>images/bullet.png</file>
     </qresource>
 </RCC>

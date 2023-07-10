@@ -19,32 +19,10 @@ auto Bullet::startTimer() -> void {
 	timer->start(msec);
 }
 
-
-auto Bullet::Builder::setSpeed(qreal s) -> Bullet::Builder & {
-	bullet->speed = s;
-	return *this;
+Bullet::Bullet(qreal s) : speed(s) {
+	setPixmap(QPixmap(":/images/bullet.png"));
+	// the original image is 128x128, rescaling it as 32x32
+	setScale(32.0/128.0);
+	startTimer();
 }
 
-Bullet::Builder::Builder() {
-	bullet = new Bullet();
-}
-
-auto Bullet::Builder::setWidth(qreal w) -> Bullet::Builder & {
-	bullet->setRect(bullet->x(), bullet->y(), w, bullet->rect().height());
-	return *this;
-}
-
-auto Bullet::Builder::setHeight(qreal h) -> Bullet::Builder & {
-	bullet->setRect(bullet->x(), bullet->y(), bullet->rect().width(), h);
-	return *this;
-}
-
-auto Bullet::Builder::build() -> Bullet * {
-	bullet->startTimer();
-	return bullet;
-}
-
-auto Bullet::Builder::setPos(qreal x, qreal y) -> Bullet::Builder & {
-	bullet->setPos(x, y);
-	return *this;
-}

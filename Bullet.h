@@ -12,7 +12,7 @@
 
 static const int msec = 50;
 
-class Bullet : public QObject, public QGraphicsRectItem {
+class Bullet : public QObject, public QGraphicsPixmapItem {
 Q_OBJECT
 
 	qreal speed;
@@ -20,22 +20,7 @@ Q_OBJECT
 	auto startTimer() -> void;
 
 public:
-	class Builder {
-		Bullet *bullet;
-	public:
-		Builder();
-
-		auto setSpeed(qreal s) -> Builder &;
-
-		auto setWidth(qreal w) -> Builder &;
-
-		auto setHeight(qreal h) -> Builder &;
-
-		auto setPos(qreal x, qreal y) -> Builder &;
-
-		auto build() -> Bullet *;
-
-	};
+	explicit Bullet(qreal s);
 
 public slots:
 
