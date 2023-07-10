@@ -7,11 +7,10 @@
 #include <QGraphicsScene>
 
 void Bullet::move() {
-	if (y() + rect().height() < 0) {
-		scene()->removeItem(this);
-		delete this;
-	}
-	setPos(x() + xSpeed, y() + ySpeed);
+	auto angle = qDegreesToRadians(rotation());
+	auto xSpeed = qSin(angle) * speed;
+	auto ySpeed = qCos(angle) * speed;
+	this->setPos(this->x() + xSpeed, this->y() + ySpeed);
 }
 
 auto Bullet::startTimer() -> void {
@@ -20,13 +19,9 @@ auto Bullet::startTimer() -> void {
 	timer->start(msec);
 }
 
-auto Bullet::Builder::setXSpeed(qreal x) -> Bullet::Builder & {
-	bullet->xSpeed = x;
-	return *this;
-}
 
-auto Bullet::Builder::setYSpeed(qreal y) -> Bullet::Builder & {
-	bullet->ySpeed = y;
+auto Bullet::Builder::setSpeed(qreal s) -> Bullet::Builder & {
+	bullet->speed = s;
 	return *this;
 }
 

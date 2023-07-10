@@ -15,8 +15,7 @@ static const int msec = 50;
 class Bullet : public QObject, public QGraphicsRectItem {
 Q_OBJECT
 
-	int xSpeed;
-	int ySpeed;
+	qreal speed;
 
 	auto startTimer() -> void;
 
@@ -26,9 +25,7 @@ public:
 	public:
 		Builder();
 
-		auto setXSpeed(qreal x) -> Builder &;
-
-		auto setYSpeed(qreal y) -> Builder &;
+		auto setSpeed(qreal s) -> Builder &;
 
 		auto setWidth(qreal w) -> Builder &;
 
