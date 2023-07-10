@@ -23,8 +23,20 @@ public:
 
 	void create();
 
-	std::pair<int, int> getMapSize() const {
+	[[nodiscard]] std::pair<int, int> getMapSize() const {
 		return {map[0].size() * OBJECT_PIXEL_WIDTH, map.size() * OBJECT_PIXEL_HEIGHT};
+	}
+
+	[[nodiscard]] auto getEmptyIndexes() const {
+		std::vector<std::pair<int, int>> emptyIndexes;
+		for (int i = 0; i < map.size(); ++i) {
+			for (int j = 0; j < map[i].size(); ++j) {
+				if (map[i][j] == Object::Type::EMPTY) {
+					emptyIndexes.emplace_back(i, j);
+				}
+			}
+		}
+		return emptyIndexes;
 	}
 };
 
