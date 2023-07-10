@@ -10,7 +10,7 @@ void Bullet::move() {
 	auto angle = qDegreesToRadians(rotation());
 	auto xSpeed = qSin(angle) * speed;
 	auto ySpeed = qCos(angle) * speed;
-	this->setPos(this->x() + xSpeed, this->y() + ySpeed);
+	this->setPos(this->x() + xSpeed, this->y() - ySpeed);
 }
 
 auto Bullet::startTimer() -> void {

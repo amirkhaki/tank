@@ -26,14 +26,14 @@ void Player::down() {
 	auto angle = qDegreesToRadians(rotation());
 	auto xSpeed = qSin(angle) * movementSpeed;
 	auto ySpeed = qCos(angle) * movementSpeed;
-	this->setPos(this->x() + xSpeed, this->y() + ySpeed);
+	this->setPos(this->x() + xSpeed, this->y() - ySpeed);
 }
 
 void Player::up() {
 	auto angle = qDegreesToRadians(rotation());
 	auto xSpeed = qSin(angle) * movementSpeed;
 	auto ySpeed = qCos(angle) * movementSpeed;
-	this->setPos(this->x() - xSpeed, this->y() - ySpeed);
+	this->setPos(this->x() - xSpeed, this->y() + ySpeed);
 }
 
 void Player::left() {
