@@ -11,7 +11,7 @@
 #include <qpoint.h>
 
 class Player : public QGraphicsPixmapItem, public Living {
-	typedef std::function<void(Player *)> MethodType;
+	using MethodType = std::function<void(Player *)>;
 	std::map<int, MethodType> keyMap;
 	qreal rotationSpeed{};
 	qreal movementSpeed{};
@@ -51,6 +51,7 @@ public:
 	void shoot();
 
 	void addHealthText(const QPointF &healthPos);
+
 	~Player() override;
 };
 
