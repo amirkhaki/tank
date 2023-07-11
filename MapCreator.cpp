@@ -12,14 +12,17 @@
 #include <QGraphicsScene>
 #include <utility>
 
-MapCreator::MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s) : map(std::move(m)),
-                                                                                      scene(s) { create(); }
+MapCreator::MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s, double p) : map(std::move(m)),
+                                                                                                topPadding(p),
+                                                                                                scene(s) {
+	create();
+}
 
 void MapCreator::create() {
 	auto height = map.size();
 	// maps are supposed to have at least a row
 	auto width = map[0].size();
-	scene->setSceneRect(0, 0, qreal(width) * OBJECT_PIXEL_WIDTH, qreal(height) * OBJECT_PIXEL_HEIGHT);
+	scene->setSceneRect(0, 0, qreal(width) * OBJECT_PIXEL_WIDTH, qreal(height) * OBJECT_PIXEL_HEIGHT + topPadding);
 	for (int i = 0; i < map.size(); ++i) {
 		for (int j = 0; j < map[i].size(); ++j) {
 			Object *item;
@@ -38,7 +41,7 @@ void MapCreator::create() {
 					break;
 			}
 			item->init();
-			item->setPos(j * OBJECT_PIXEL_WIDTH, i * OBJECT_PIXEL_HEIGHT);
+			item->setPos(j * OBJECT_PIXEL_WIDTH, i * OBJECT_PIXEL_HEIGHT + topPadding);
 			item->setZValue(0);
 			scene->addItem(item);
 		}

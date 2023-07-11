@@ -4,8 +4,6 @@
 
 #include "Scene.h"
 #include "Player.h"
-#include <QEvent>
-#include <QObject>
 #include <QKeyEvent>
 
 
@@ -15,10 +13,5 @@ void Scene::addPlayer(Player *p) {
 
 void Scene::keyPressEvent(QKeyEvent *event) {
 	for (auto &player: players)
-
 		if (items().contains(player)) player->keyPressEvent(event);
-}
-
-void Scene::removePlayer(Player *p) {
-
 }

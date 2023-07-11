@@ -7,16 +7,16 @@
 
 
 class Living {
-	int health;
 	bool mortal;
 protected:
 	virtual void onDestruct() = 0;
+
+	int health;
+	int maxHealth;
 public:
 	Living(int h, bool m);
 
-	Living();
-
-	void decreaseHealth(int a);
+	virtual void decreaseHealth(int a);
 };
 
 

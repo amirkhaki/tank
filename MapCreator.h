@@ -15,11 +15,11 @@ const int OBJECT_PIXEL_WIDTH = 50;
 const int OBJECT_PIXEL_HEIGHT = 50;
 
 class MapCreator {
-
+	double topPadding;
 	std::vector<std::vector<Object::Type>> map;
 	QGraphicsScene *scene;
 public:
-	MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s);
+	MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s, double p);
 
 	void create();
 

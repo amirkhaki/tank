@@ -10,8 +10,10 @@
 #include <QGraphicsScene>
 #include <qbrush.h>
 #include <QtMath>
+#include <qgraphicsitem.h>
 #include <qpoint.h>
 #include <qtransform.h>
+#include <type_traits>
 
 void Player::keyPressEvent(QKeyEvent *event) {
 	if (keyMap.count(event->key()) > 0)
@@ -55,7 +57,8 @@ void Player::setSpeed(qreal rSpeed, qreal mSpeed) {
 	movementSpeed = mSpeed;
 }
 
-Player::Player(int h, bool m, Player::Controls controls) : Living(h, m) {
+Player::Player(int h, Player::Controls controls) : Living(h, true) {
+	this->healthText = new std::remove_reference_t<decltype(*this->healthText)>();
 	auto p = QPixmap(":/images/tank.png");
 	auto scaleFactor = 50.0 / 250.0;
 	p = p.scaled(p.width() * scaleFactor, p.height() * scaleFactor);
@@ -70,10 +73,24 @@ Player::Player(int h, bool m, Player::Controls controls) : Living(h, m) {
 	keyMap[controls.shoot] = [this](Player *player) { player->shoot(); };
 }
 
+void Player::addHealthText(const QPointF &healthPos) {
+	healthText->setPos(healthPos);
+	healthText->setPlainText(QString("health: ") + QString::number(this->health));
+	scene()->addItem(healthText);
+}
+
 void Player::onDestruct() {
-	qDebug() << "player is dead now";
 	scene()->removeItem(this);
-	dynamic_cast<Scene *>(scene())->removePlayer(this);
 	delete this;
+}
+
+void Player::decreaseHealth(int a) {
+	Living::decreaseHealth(a);
+	healthText->setPlainText(QString("health: ") + QString::number(health));
+}
+
+Player::~Player() {
+	scene()->removeItem(healthText);
+	delete healthText;
 }
 

@@ -7,14 +7,18 @@
 
 #include "Living.h"
 #include <QGraphicsPixmapItem>
+#include <qgraphicsitem.h>
+#include <qpoint.h>
 
 class Player : public QGraphicsPixmapItem, public Living {
 	typedef std::function<void(Player *)> MethodType;
 	std::map<int, MethodType> keyMap;
 	qreal rotationSpeed{};
 	qreal movementSpeed{};
+	QGraphicsTextItem *healthText;
 
 	[[nodiscard]] QPointF moveAmount(qreal amount) const;
+
 protected:
 	void onDestruct() override;
 
@@ -27,7 +31,10 @@ public:
 		int shoot;
 	};
 
-	explicit Player(int h, bool m, Player::Controls controls);
+
+	void decreaseHealth(int a) override;
+
+	Player(int h, Player::Controls controls);
 
 	void keyPressEvent(QKeyEvent *event) override;
 
@@ -42,6 +49,9 @@ public:
 	void down();
 
 	void shoot();
+
+	void addHealthText(const QPointF &healthPos);
+	~Player() override;
 };
 
 

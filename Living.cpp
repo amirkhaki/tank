@@ -4,7 +4,7 @@
 
 #include "Living.h"
 
-Living::Living(int h, bool m) : health(h), mortal(m) {}
+Living::Living(int h, bool m) : health(h), mortal(m), maxHealth(h) {}
 
 void Living::decreaseHealth(int a) {
 	if (!mortal) return;
