@@ -6,11 +6,14 @@
 #define GAME_BOX_H
 
 
+#include "Living.h"
 #include "Object.h"
-class Box : public Object {
+class Box : public Object, public Living {
 protected:
 	QString getImage() override;
-
+	void onDestruct() override;
+public:
+	explicit Box(int h) : Living(h, true) {}
 };
 
 

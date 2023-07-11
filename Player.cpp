@@ -4,12 +4,14 @@
 
 #include "Player.h"
 #include "Bullet.h"
+#include "Scene.h"
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <qbrush.h>
 #include <QtMath>
 #include <qpoint.h>
+#include <qtransform.h>
 
 void Player::keyPressEvent(QKeyEvent *event) {
 	if (keyMap.count(event->key()) > 0)
@@ -17,7 +19,7 @@ void Player::keyPressEvent(QKeyEvent *event) {
 }
 
 void Player::shoot() {
-	auto *bullet = new Bullet(1);
+	auto *bullet = new Bullet(this, 1, 10);
 	bullet->setPos(mapToScene(boundingRect().center().x(), boundingRect().top()));
 	bullet->setRotation(rotation());
 	this->scene()->addItem(bullet);
@@ -53,7 +55,7 @@ void Player::setSpeed(qreal rSpeed, qreal mSpeed) {
 	movementSpeed = mSpeed;
 }
 
-Player::Player(Player::Controls controls) {
+Player::Player(int h, bool m, Player::Controls controls) : Living(h, m) {
 	auto p = QPixmap(":/images/tank.png");
 	auto scaleFactor = 50.0 / 250.0;
 	p = p.scaled(p.width() * scaleFactor, p.height() * scaleFactor);
@@ -66,5 +68,12 @@ Player::Player(Player::Controls controls) {
 	keyMap[controls.up] = [this](Player *player) { player->up(); };
 	keyMap[controls.down] = [this](Player *player) { player->down(); };
 	keyMap[controls.shoot] = [this](Player *player) { player->shoot(); };
+}
+
+void Player::onDestruct() {
+	qDebug() << "player is dead now";
+	scene()->removeItem(this);
+	dynamic_cast<Scene *>(scene())->removePlayer(this);
+	delete this;
 }
 

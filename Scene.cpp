@@ -3,16 +3,22 @@
 //
 
 #include "Scene.h"
+#include "Player.h"
 #include <QEvent>
 #include <QObject>
 #include <QKeyEvent>
 
 
 void Scene::addPlayer(Player *p) {
-	players.append(p);
+	players.insert(players.end(), p);
 }
 
 void Scene::keyPressEvent(QKeyEvent *event) {
 	for (auto &player: players)
-		player->keyPressEvent(event);
+
+		if (items().contains(player)) player->keyPressEvent(event);
+}
+
+void Scene::removePlayer(Player *p) {
+
 }

@@ -9,18 +9,21 @@
 #include <qgraphicsitem.h>
 #include <qobject.h>
 #include <qtypes.h>
+#include "Player.h"
 
 static const int msec = 50;
 
 class Bullet : public QObject, public QGraphicsPixmapItem {
 Q_OBJECT
 
+	Player *shooter;
 	qreal speed;
+	int power;
 
 	auto startTimer() -> void;
 
 public:
-	explicit Bullet(qreal s);
+	Bullet(Player *shooter, qreal s, int p);
 
 public slots:
 

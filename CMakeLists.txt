@@ -14,7 +14,7 @@ find_package(Qt6 COMPONENTS
         REQUIRED)
 
 add_executable(game main.cpp Player.cpp Player.h Bullet.cpp Bullet.h MapCreator.cpp MapCreator.h Object.cpp Object.h Wall.cpp Wall.h Box.cpp Box.h Forest.cpp Forest.h Empty.cpp Empty.h
-        resources.qrc Scene.cpp Scene.h)
+        resources.qrc Scene.cpp Scene.h Living.cpp Living.h)
 target_link_libraries(game
         Qt::Core
         Qt::Gui

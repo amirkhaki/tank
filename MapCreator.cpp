@@ -17,7 +17,7 @@ MapCreator::MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene 
 
 void MapCreator::create() {
 	auto height = map.size();
-	// map is supposed to have at least a row
+	// maps are supposed to have at least a row
 	auto width = map[0].size();
 	scene->setSceneRect(0, 0, qreal(width) * OBJECT_PIXEL_WIDTH, qreal(height) * OBJECT_PIXEL_HEIGHT);
 	for (int i = 0; i < map.size(); ++i) {
@@ -28,7 +28,7 @@ void MapCreator::create() {
 					item = new Wall();
 					break;
 				case Object::Type::BOX:
-					item = new Box();
+					item = new Box(20);
 					break;
 				case Object::Type::FOREST:
 					item = new Forest();

@@ -5,15 +5,18 @@
 #ifndef GAME_PLAYER_H
 #define GAME_PLAYER_H
 
+#include "Living.h"
 #include <QGraphicsPixmapItem>
 
-class Player : public QGraphicsPixmapItem {
+class Player : public QGraphicsPixmapItem, public Living {
 	typedef std::function<void(Player *)> MethodType;
 	std::map<int, MethodType> keyMap;
 	qreal rotationSpeed{};
 	qreal movementSpeed{};
 
 	[[nodiscard]] QPointF moveAmount(qreal amount) const;
+protected:
+	void onDestruct() override;
 
 public:
 	struct Controls {
@@ -24,7 +27,7 @@ public:
 		int shoot;
 	};
 
-	explicit Player(Controls controls);
+	explicit Player(int h, bool m, Player::Controls controls);
 
 	void keyPressEvent(QKeyEvent *event) override;
 

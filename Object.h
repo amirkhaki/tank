@@ -6,6 +6,7 @@
 #define GAME_OBJECT_H
 
 
+#include "Living.h"
 #include <QString>
 #include <QGraphicsPixmapItem>
 
