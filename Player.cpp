@@ -4,16 +4,13 @@
 
 #include "Player.h"
 #include "Bullet.h"
-#include "Scene.h"
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <qbrush.h>
 #include <QtMath>
-#include <qgraphicsitem.h>
 #include <qpoint.h>
 #include <qtransform.h>
-#include <type_traits>
 
 void Player::keyPressEvent(QKeyEvent *event) {
 	if (keyMap.count(event->key()) > 0)
@@ -61,16 +58,16 @@ Player::Player(int h, Player::Controls controls) : Living(h, true) {
 	this->healthText = new std::remove_reference_t<decltype(*this->healthText)>();
 	auto p = QPixmap(":/images/tank.png");
 	auto scaleFactor = 50.0 / 250.0;
-	p = p.scaled(p.width() * scaleFactor, p.height() * scaleFactor);
+	p = p.scaled(static_cast<int>(p.width() * scaleFactor), static_cast<int>( p.height() * scaleFactor));
 	setPixmap(p);
 	auto rect = QRectF(QPointF(0, 0), pixmap().rect().size());
 	setTransformOriginPoint(rect.center());
 	setZValue(1);
-	keyMap[controls.right] = [this](Player *player) { player->right(); };
-	keyMap[controls.left] = [this](Player *player) { player->left(); };
-	keyMap[controls.up] = [this](Player *player) { player->up(); };
-	keyMap[controls.down] = [this](Player *player) { player->down(); };
-	keyMap[controls.shoot] = [this](Player *player) { player->shoot(); };
+	keyMap[controls.right] = [](Player *player) { player->right(); };
+	keyMap[controls.left] = [](Player *player) { player->left(); };
+	keyMap[controls.up] = [](Player *player) { player->up(); };
+	keyMap[controls.down] = [](Player *player) { player->down(); };
+	keyMap[controls.shoot] = [](Player *player) { player->shoot(); };
 }
 
 void Player::addHealthText(const QPointF &healthPos) {
@@ -80,17 +77,17 @@ void Player::addHealthText(const QPointF &healthPos) {
 }
 
 void Player::onDestruct() {
+	scene()->removeItem(healthText);
 	scene()->removeItem(this);
 	delete this;
 }
 
 void Player::decreaseHealth(int a) {
-	Living::decreaseHealth(a);
 	healthText->setPlainText(QString("health: ") + QString::number(health));
+	Living::decreaseHealth(a);
 }
 
 Player::~Player() {
-	scene()->removeItem(healthText);
 	delete healthText;
 }
 
