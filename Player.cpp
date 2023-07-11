@@ -9,7 +9,7 @@
 #include <QGraphicsScene>
 #include <qbrush.h>
 #include <QtMath>
-#include <qmath.h>
+#include <qpoint.h>
 
 void Player::keyPressEvent(QKeyEvent *event) {
 	if (keyMap.count(event->key()) > 0)
@@ -18,23 +18,26 @@ void Player::keyPressEvent(QKeyEvent *event) {
 
 void Player::shoot() {
 	auto *bullet = new Bullet(1);
-	bullet->setPos(this->x(), this->y());
+	bullet->setPos(mapToScene(boundingRect().center().x(), boundingRect().top()));
 	bullet->setRotation(rotation());
 	this->scene()->addItem(bullet);
 }
 
 void Player::down() {
-	auto angle = qDegreesToRadians(rotation());
-	auto xSpeed = qSin(angle) * movementSpeed;
-	auto ySpeed = qCos(angle) * movementSpeed;
-	this->setPos(this->x() + xSpeed, this->y() - ySpeed);
+	auto amount = moveAmount(movementSpeed);
+	moveBy(-amount.x(), amount.y());
+}
+
+QPointF Player::moveAmount(qreal amount) const {
+	auto angle = qDegreesToRadians(this->rotation());
+	auto xSpeed = qCos(angle) * amount;
+	auto ySpeed = qSin(angle) * amount;
+	return {xSpeed, ySpeed};
 }
 
 void Player::up() {
-	auto angle = qDegreesToRadians(rotation());
-	auto xSpeed = qSin(angle) * movementSpeed;
-	auto ySpeed = qCos(angle) * movementSpeed;
-	this->setPos(this->x() - xSpeed, this->y() + ySpeed);
+	auto amount = moveAmount(movementSpeed);
+	moveBy(amount.x(), -amount.y());
 }
 
 void Player::left() {
@@ -51,9 +54,12 @@ void Player::setSpeed(qreal rSpeed, qreal mSpeed) {
 }
 
 Player::Player(Player::Controls controls) {
-	setPixmap(QPixmap(":/images/tank.png"));
-	auto rect = pixmap().rect();
-	setTransformOriginPoint(rect.width() / 2.0, rect.height() / 2.0);
+	auto p = QPixmap(":/images/tank.png");
+	auto scaleFactor = 50.0 / 250.0;
+	p = p.scaled(p.width() * scaleFactor, p.height() * scaleFactor);
+	setPixmap(p);
+	auto rect = QRectF(QPointF(0, 0), pixmap().rect().size());
+	setTransformOriginPoint(rect.center());
 	setZValue(1);
 	keyMap[controls.right] = [this](Player *player) { player->right(); };
 	keyMap[controls.left] = [this](Player *player) { player->left(); };

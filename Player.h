@@ -13,6 +13,8 @@ class Player : public QGraphicsPixmapItem {
 	qreal rotationSpeed{};
 	qreal movementSpeed{};
 
+	[[nodiscard]] QPointF moveAmount(qreal amount) const;
+
 public:
 	struct Controls {
 		int up;
@@ -36,9 +38,7 @@ public:
 
 	void down();
 
-
 	void shoot();
-
 };
 
 
