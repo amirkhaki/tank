@@ -3,7 +3,6 @@
 //
 
 #include "Empty.h"
-#include <exception>
 
 QString Empty::getImage() {
 	return ":/images/empty.png";

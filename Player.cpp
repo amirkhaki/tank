@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "Bullet.h"
+#include "Empty.h"
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
@@ -27,6 +28,12 @@ void Player::shoot() {
 void Player::down() {
 	auto amount = moveAmount(movementSpeed);
 	moveBy(-amount.x(), amount.y());
+	for (const auto &i: collidingItems()) {
+		if (typeid(*i) != typeid(Empty)) {
+			// undo the movement
+			moveBy(amount.x(), -amount.y());
+		}
+	}
 }
 
 QPointF Player::moveAmount(qreal amount) const {
@@ -39,14 +46,32 @@ QPointF Player::moveAmount(qreal amount) const {
 void Player::up() {
 	auto amount = moveAmount(movementSpeed);
 	moveBy(amount.x(), -amount.y());
+	for (const auto &i: collidingItems()) {
+		if (typeid(*i) != typeid(Empty)) {
+			// undo the movement
+			moveBy(-amount.x(), amount.y());
+		}
+	}
 }
 
 void Player::left() {
 	setRotation(rotation() - rotationSpeed);
+	for (const auto &i: collidingItems()) {
+		if (typeid(*i) != typeid(Empty)) {
+			// undo the movement
+			setRotation(rotation() + rotationSpeed);
+		}
+	}
 }
 
 void Player::right() {
 	setRotation(rotation() + rotationSpeed);
+	for (const auto &i: collidingItems()) {
+		if (typeid(*i) != typeid(Empty)) {
+			// undo the movement
+			setRotation(rotation() - rotationSpeed);
+		}
+	}
 }
 
 void Player::setSpeed(qreal rSpeed, qreal mSpeed) {
