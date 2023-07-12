@@ -18,7 +18,9 @@ int main(int argc, char *argv[]) {
 	                                                    {Object::Type::BOX, Object::Type::FOREST, Object::Type::WALL,   Object::Type::FOREST, Object::Type::FOREST, Object::Type::FOREST},
 	                                                    {Object::Type::BOX, Object::Type::WALL,   Object::Type::FOREST, Object::Type::FOREST, Object::Type::FOREST, Object::Type::FOREST}};
 	int topPadding = 20;
-	MapCreator map(mapVector, scene, topPadding);
+	//MapCreator map(mapVector, scene, topPadding);
+	MapCreator map("/home/amir/CLionProjects/game/maps/map_1.txt", scene, topPadding, 53);
+	map.create();
 	std::vector<std::pair<int, int>> positions;
 	auto emptyPositions = map.getEmptyIndexes();
 	std::sample(emptyPositions.begin(), emptyPositions.end(), std::back_inserter(positions), 2,

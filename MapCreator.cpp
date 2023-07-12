@@ -8,19 +8,25 @@
 #include "Forest.h"
 #include "Object.h"
 #include "Wall.h"
+#include <fstream>
+#include <qevent.h>
+#include <sstream>
+#include <vector>
 
 #include <QGraphicsScene>
 #include <utility>
+#include <iostream>
 
-MapCreator::MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s, double p) : map(std::move(m)),
-                                                                                                topPadding(p),
-                                                                                                scene(s) {
-	create();
-}
+[[maybe_unused]] MapCreator::MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s, double p) : map(
+		std::move(m)),
+                                                                                                                 topPadding(
+		                                                                                                                 p),
+                                                                                                                 scene(s) {}
 
 void MapCreator::create() {
 	auto height = map.size();
 	// maps are supposed to have at least a row
+	qDebug() << height;
 	auto width = map[0].size();
 	scene->setSceneRect(0, 0, qreal(width) * OBJECT_PIXEL_WIDTH, qreal(height) * OBJECT_PIXEL_HEIGHT + topPadding);
 	for (int i = 0; i < map.size(); ++i) {
@@ -45,5 +51,32 @@ void MapCreator::create() {
 			item->setZValue(0);
 			scene->addItem(item);
 		}
+	}
+}
+
+void readLine(std::fstream &f, char *buffer, int n) {
+	int c;
+	for (int i = 0; (c = f.get()) != EOF && c != '\n' && i < n; ++i) {
+		buffer[i] = static_cast<char>(c);
+	}
+}
+
+MapCreator::MapCreator(const std::string &fileName, QGraphicsScene *s, double p, int maxLine) : scene(s),
+                                                                                                topPadding(p) {
+	std::fstream file(fileName);
+	if (!file.is_open()) {
+		qDebug() << "can't open file";
+		throw std::exception();
+	}
+	auto *line = new char[maxLine + 1];
+	while (!file.eof()) {
+		readLine(file, line, maxLine);
+		std::vector<Object::Type> row;
+		std::stringstream l(line);
+		Object::Type item;
+		while (l >> item) {
+			row.insert(row.cend(), item);
+		}
+		map.insert(map.cend(), row);
 	}
 }

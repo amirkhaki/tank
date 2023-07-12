@@ -8,6 +8,7 @@
 
 #include "Object.h"
 #include <qgraphicsitem.h>
+#include <qgraphicsscene.h>
 #include <utility>
 #include <vector>
 
@@ -19,7 +20,9 @@ class MapCreator {
 	std::vector<std::vector<Object::Type>> map;
 	QGraphicsScene *scene;
 public:
-	MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s, double p);
+	MapCreator(const std::string &fileName, QGraphicsScene *s, double p, int maxLine);
+
+	[[maybe_unused]] MapCreator(std::vector<std::vector<Object::Type>> m, QGraphicsScene *s, double p);
 
 	void create();
 

@@ -9,6 +9,9 @@
 #include "Living.h"
 #include <QString>
 #include <QGraphicsPixmapItem>
+#include <ostream>
+#include <qgraphicsitem.h>
+#include <sstream>
 
 class Object : public QGraphicsPixmapItem {
 protected:
@@ -16,6 +19,7 @@ protected:
 
 public:
 	void init();
+
 	enum class Type {
 		WALL,
 		BOX,
@@ -23,6 +27,8 @@ public:
 		EMPTY
 	};
 };
+
+std::stringstream &operator>>(std::stringstream &in, Object::Type &);
 
 
 #endif //GAME_OBJECT_H
