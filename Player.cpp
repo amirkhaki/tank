@@ -26,30 +26,30 @@ void Player::shoot() {
 }
 
 void Player::down() {
-	auto amount = moveAmount(movementSpeed);
-	moveBy(-amount.x(), amount.y());
+	auto amount = moveAmount(-movementSpeed);
+	setPos(pos()+amount);
 	for (const auto &i: collidingItems()) {
 		if (typeid(*i) != typeid(Empty)) {
 			// undo the movement
-			moveBy(amount.x(), -amount.y());
+			setPos(pos()-amount);
 		}
 	}
 }
 
 QPointF Player::moveAmount(qreal amount) const {
-	auto angle = qDegreesToRadians(this->rotation());
-	auto xSpeed = qCos(angle) * amount;
-	auto ySpeed = qSin(angle) * amount;
-	return {xSpeed, ySpeed};
+	auto transform = QTransform();
+	transform.rotate(rotation());
+	return transform.map(QPointF(amount, 0));
+
 }
 
 void Player::up() {
 	auto amount = moveAmount(movementSpeed);
-	moveBy(amount.x(), -amount.y());
+	setPos(pos()+amount);
 	for (const auto &i: collidingItems()) {
 		if (typeid(*i) != typeid(Empty)) {
 			// undo the movement
-			moveBy(-amount.x(), amount.y());
+			setPos(pos()-amount);
 		}
 	}
 }
@@ -67,7 +67,7 @@ void Player::setSpeed(qreal rSpeed, qreal mSpeed) {
 	movementSpeed = mSpeed;
 }
 
-Player::Player(int h, Player::Controls controls) : Living(h, true) {
+Player::Player(int h, const Player::Controls &controls) : Living(h, true) {
 	this->healthText = new std::remove_reference_t<decltype(*this->healthText)>();
 	auto p = QPixmap(":/images/tank.png");
 	auto scaleFactor = 50.0 / 250.0;
@@ -76,7 +76,6 @@ Player::Player(int h, Player::Controls controls) : Living(h, true) {
 	auto rect = QRectF(QPointF(0, 0), pixmap().rect().size());
 	setTransformOriginPoint(rect.center());
 	setZValue(1);
-	setRotation(90);
 	keyMap[controls.right] = [](Player *player) { player->right(); };
 	keyMap[controls.left] = [](Player *player) { player->left(); };
 	keyMap[controls.up] = [](Player *player) { player->up(); };
@@ -104,4 +103,3 @@ void Player::decreaseHealth(int a) {
 Player::~Player() {
 	delete healthText;
 }
-

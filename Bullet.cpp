@@ -10,10 +10,10 @@
 #include <QDateTime>
 
 void Bullet::move() {
-	auto angle = qDegreesToRadians(rotation());
-	auto xSpeed = qSin(angle) * speed;
-	auto ySpeed = qCos(angle) * speed;
-	this->setPos(this->x() + xSpeed, this->y() - ySpeed);
+
+	auto transform = QTransform();
+	transform.rotate(rotation());
+	setPos(pos() + transform.map(QPointF(speed, 0)));
 	for (const auto &item: collidingItems()) {
 		Living *i;
 		if (item != shooter && (i = dynamic_cast<Living *>(item)) != nullptr) {

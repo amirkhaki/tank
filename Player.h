@@ -34,7 +34,7 @@ public:
 
 	void decreaseHealth(int a) override;
 
-	Player(int h, Player::Controls controls);
+	Player(int h, const Player::Controls &controls);
 
 	void keyPressEvent(QKeyEvent *event) override;
 
