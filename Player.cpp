@@ -56,22 +56,10 @@ void Player::up() {
 
 void Player::left() {
 	setRotation(rotation() - rotationSpeed);
-	for (const auto &i: collidingItems()) {
-		if (typeid(*i) != typeid(Empty)) {
-			// undo the movement
-			setRotation(rotation() + rotationSpeed);
-		}
-	}
 }
 
 void Player::right() {
 	setRotation(rotation() + rotationSpeed);
-	for (const auto &i: collidingItems()) {
-		if (typeid(*i) != typeid(Empty)) {
-			// undo the movement
-			setRotation(rotation() - rotationSpeed);
-		}
-	}
 }
 
 void Player::setSpeed(qreal rSpeed, qreal mSpeed) {
@@ -88,6 +76,7 @@ Player::Player(int h, Player::Controls controls) : Living(h, true) {
 	auto rect = QRectF(QPointF(0, 0), pixmap().rect().size());
 	setTransformOriginPoint(rect.center());
 	setZValue(1);
+	setRotation(90);
 	keyMap[controls.right] = [](Player *player) { player->right(); };
 	keyMap[controls.left] = [](Player *player) { player->left(); };
 	keyMap[controls.up] = [](Player *player) { player->up(); };
