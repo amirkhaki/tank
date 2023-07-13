@@ -10,12 +10,22 @@
 #include <qgraphicsitem.h>
 #include <qpoint.h>
 
+struct TankInfo {
+	qreal movementSpeed;
+	qreal rotationSpeed;
+	qint64 shootCooldown;
+	qint64 health;
+	int bulletPower;
+	int bulletSpeed;
+	QString name;
+};
+
 class Player : public QGraphicsPixmapItem, public Living {
 	using MethodType = std::function<void(Player *)>;
 	std::map<int, MethodType> keyMap;
-	qreal rotationSpeed{};
-	qreal movementSpeed{};
 	QGraphicsTextItem *healthText;
+	qint64 lastShootTime{};
+	QString playerName;
 
 	[[nodiscard]] QPointF moveAmount(qreal amount) const;
 
@@ -23,6 +33,8 @@ protected:
 	void onDestruct() override;
 
 public:
+	QString name;
+	int winCount{};
 	struct Controls {
 		int up;
 		int down;
@@ -34,11 +46,9 @@ public:
 
 	void decreaseHealth(int a) override;
 
-	Player(int h, const Player::Controls &controls);
+	Player(QString pName, const TankInfo &t, const Player::Controls &controls);
 
 	void keyPressEvent(QKeyEvent *event) override;
-
-	void setSpeed(qreal rSpeed, qreal mSpeed);
 
 	void right();
 
@@ -50,9 +60,12 @@ public:
 
 	void shoot();
 
-	void addHealthText(const QPointF &healthPos);
 
 	~Player() override;
+
+private:
+	TankInfo tankInfo;
+
 };
 
 

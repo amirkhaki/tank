@@ -10,11 +10,12 @@
 #include <QGraphicsScene>
 
 class Scene : public QGraphicsScene {
-	std::vector<Player *> players;
+	QList<Player *> players;
 public:
 	void keyPressEvent(QKeyEvent *event) override;
 
 	void addPlayer(Player *p);
+	void removePlayer(Player *p);
 };
 
 

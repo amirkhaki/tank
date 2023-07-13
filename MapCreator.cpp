@@ -11,6 +11,7 @@
 #include <fstream>
 #include <qevent.h>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include <QGraphicsScene>
@@ -26,7 +27,6 @@
 void MapCreator::create() {
 	auto height = map.size();
 	// maps are supposed to have at least a row
-	qDebug() << height;
 	auto width = map[0].size();
 	scene->setSceneRect(0, 0, qreal(width) * OBJECT_PIXEL_WIDTH, qreal(height) * OBJECT_PIXEL_HEIGHT + topPadding);
 	for (int i = 0; i < map.size(); ++i) {
@@ -65,12 +65,12 @@ MapCreator::MapCreator(const std::string &fileName, QGraphicsScene *s, double p,
                                                                                                 topPadding(p) {
 	std::fstream file(fileName);
 	if (!file.is_open()) {
-		qDebug() << "can't open file";
+		qDebug() << "can't open file" << fileName;
 		throw std::exception();
 	}
-	auto *line = new char[maxLine + 1];
 	while (!file.eof()) {
-		readLine(file, line, maxLine);
+		std::string line;
+		std::getline(file, line);
 		std::vector<Object::Type> row;
 		std::stringstream l(line);
 		Object::Type item;

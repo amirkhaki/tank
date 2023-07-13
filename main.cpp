@@ -1,3 +1,4 @@
+/*
 #include "MapCreator.h"
 #include "Scene.h"
 #include <QApplication>
@@ -7,7 +8,7 @@
 #include <random>
 
 
-int main(int argc, char *argv[]) {
+int something(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 	auto *scene = new Scene();
 	std::vector<std::vector<Object::Type>> mapVector = {{Object::Type::BOX, Object::Type::FOREST, Object::Type::WALL,   Object::Type::FOREST, Object::Type::FOREST, Object::Type::FOREST},
@@ -42,5 +43,18 @@ int main(int argc, char *argv[]) {
 	view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	view->show();
+	return QApplication::exec();
+}
+*/
+#include <QApplication>
+#include "MainWindow.h"
+
+int main(int argc, char *argv[])
+{
+	QApplication app(argc, argv);
+
+	MainWindow mainWindow;
+	mainWindow.show();
+
 	return QApplication::exec();
 }
